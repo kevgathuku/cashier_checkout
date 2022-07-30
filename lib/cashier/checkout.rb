@@ -3,7 +3,7 @@ class Cashier::Checkout
 
   def initialize(rules = [])
     @rules = rules
-    # Hash of item -> qty, with a default of 0
+    # Hash of item -> qty, with a default qty of 0
     @cart = Hash.new(0)
   end
 
@@ -12,18 +12,30 @@ class Cashier::Checkout
       raise Cashier::InvalidItemError
     end
 
-    # increment the qty in the cart by 1
+    # increment the item qty by 1
     @cart[item] += 1
   end
 
-  def calculate_discounts
+  def calculate_discounts(item)
   end
 
   def total
     result = 0
-    @cart.each_pair { |item, qty|
-      puts @rules[item]
-      result += @rules[item][:price]
+
+    @cart.each_pair { |item_code, qty|
+      puts "Item code: #{item_code}, Qty: #{qty}"
+      item_price = @rules[item_code][:price]
+
+      # Check if discounts apply, and calculate total
+      if qty >= @rules[item_code][:discount_threshold]
+        # Calculate total for that specific item
+        item_total = @rules[item_code][:discount_calc].call(item_price, qty)
+        puts "Item #{item_code}, total: #{item_total}"
+        result += item_total
+      else
+        # Add the price of the item to the total
+        result += item_price
+      end
     }
     result
   end
