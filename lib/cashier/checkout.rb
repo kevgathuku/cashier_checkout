@@ -23,7 +23,6 @@ class Cashier::Checkout
     result = 0
 
     @cart.each_pair { |item_code, qty|
-      puts "Item code: #{item_code}, Qty: #{qty}"
       item_price = @rules[item_code][:price]
       discount_threshold = @rules[item_code][:discount_threshold]
       discount_price = @rules[item_code][:discount_price]
@@ -36,14 +35,13 @@ class Cashier::Checkout
         elsif @rules[item_code].has_key?(:discount_calc)
           # Use the discount_calc proc to calculate the total
           item_total = @rules[item_code][:discount_calc].call(item_price, qty)
-          puts "Item #{item_code}, total: #{item_total}"
           result += item_total
         else
           # Past the discount threshold, and no discount type specified for this item
           raise Cashier::InvalidRulesError
         end
       else
-        # Add the price of the item to the total
+        # No discount. Add the actual price of the item to the total
         result += item_price * qty
       end
     }

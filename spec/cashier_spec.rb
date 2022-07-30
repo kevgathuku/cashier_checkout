@@ -38,7 +38,9 @@ RSpec.describe Cashier do
         price: 11.23,
         name: "Coffee",
         discount_threshold: 3,
-        discount_price: 7.48,
+        discount_calc: Proc.new { |price, qty|
+          (qty * 2 / 3.0) * price
+        },
       } }
     }
     let(:checkout_instance) { Cashier::Checkout.new pricing_rules }
@@ -105,7 +107,7 @@ RSpec.describe Cashier do
         expect(checkout_instance.total).to be 4.5 * 3
       end
 
-      xit "calculates totals for multiple products" do
+      it "calculates totals for multiple products" do
         # GR1,SR1,GR1,GR1,CF1
         checkout_instance.scan("GR1")
         checkout_instance.scan("SR1")
@@ -115,7 +117,7 @@ RSpec.describe Cashier do
         expect(checkout_instance.total).to be 22.45
       end
 
-      xit "calculates correct discounts for multiple products" do
+      it "calculates correct discounts for multiple products" do
         # SR1,SR1,GR1,SR1
         checkout_instance.scan("SR1")
         checkout_instance.scan("SR1")
@@ -124,14 +126,14 @@ RSpec.describe Cashier do
         expect(checkout_instance.total).to be 16.61
       end
 
-      xit "calculates correct discounts for mixed products" do
+      it "calculates correct discounts for mixed products" do
         # GR1,CF1,SR1,CF1,CF1
         checkout_instance.scan("GR1")
         checkout_instance.scan("CF1")
         checkout_instance.scan("SR1")
         checkout_instance.scan("CF1")
         checkout_instance.scan("CF1")
-        expect(checkout_instance.total).to be 16.61
+        expect(checkout_instance.total).to be 30.57
       end
     end
   end
