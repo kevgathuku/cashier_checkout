@@ -4,16 +4,16 @@ RSpec.describe Cashier do
   end
 
   describe '.initialize' do
-    let(:checkout_instance) {
-      Cashier::Checkout.new {
+    let(:checkout_instance) do
+      Cashier::Checkout.new do
         { 'SR1' => {
           price: 5,
           name: 'Strawberries',
           discount_threshold: 3,
-          discount_price: 4.5,
+          discount_price: 4.5
         } }
-      }
-    }
+      end
+    end
 
     it 'throws when trying to add an invalid item' do
       expect { checkout_instance.scan('XYZ') }.to raise_error Cashier::InvalidItemError
@@ -21,40 +21,40 @@ RSpec.describe Cashier do
   end
 
   describe '.total' do
-    let(:pricing_rules) {
+    let(:pricing_rules) do
       { 'GR1' => { price: 3.11,
-                 name: 'Grean Tea',
-                 discount_threshold: 2,
-                 discount_calc: Proc.new { |price, qty|
-        qty.odd? ? (qty.next / 2) * price : (qty / 2) * price
-      } },
-       'SR1' => {
-        price: 5,
-        name: 'Strawberries',
-        discount_threshold: 3,
-        discount_price: 4.5,
-      },
-       'CF1' => {
-        price: 11.23,
-        name: 'Coffee',
-        discount_threshold: 3,
-        discount_calc: Proc.new { |price, qty|
-          (qty * 2 / 3.0) * price
+                   name: 'Grean Tea',
+                   discount_threshold: 2,
+                   discount_calc: proc do |price, qty|
+                                    qty.odd? ? (qty.next / 2) * price : (qty / 2) * price
+                                  end },
+        'SR1' => {
+          price: 5,
+          name: 'Strawberries',
+          discount_threshold: 3,
+          discount_price: 4.5
         },
-      } }
-    }
+        'CF1' => {
+          price: 11.23,
+          name: 'Coffee',
+          discount_threshold: 3,
+          discount_calc: proc do |price, qty|
+                           (qty * 2 / 3.0) * price
+                         end
+        } }
+    end
     let(:checkout_instance) { Cashier::Checkout.new pricing_rules }
 
     context 'with invalid data' do
-      let(:invalid_pricing_rules) {
+      let(:invalid_pricing_rules) do
         {
           'SR1' => {
             price: 5,
             name: 'Strawberries',
-            discount_threshold: 3,
-          },
+            discount_threshold: 3
+          }
         }
-      }
+      end
       let(:checkout_instance) { Cashier::Checkout.new invalid_pricing_rules }
 
       it 'throws when calculating total with invalid discount rules' do
@@ -68,10 +68,10 @@ RSpec.describe Cashier do
 
     context 'with no discounts' do
       it 'calculates totals correctly' do
-        products = ['GR1', 'SR1', 'CF1']
-        products.each { |code|
+        products = %w[GR1 SR1 CF1]
+        products.each do |code|
           checkout_instance.scan(code)
-        }
+        end
         expect(checkout_instance.total).to be 19.34
       end
 
