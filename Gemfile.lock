@@ -41,9 +41,10 @@ GEM
 
 PLATFORMS
   arm64-darwin-20
+  x86_64-linux
 
 DEPENDENCIES
-  rspec (~> 3.0)
+  rspec (~> 3.11)
   rubocop
   rufo
 

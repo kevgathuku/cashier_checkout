@@ -1,5 +1,7 @@
 # Cashier
 
+[![Build Status](https://app.travis-ci.com/kevgathuku/cashier_checkout.svg?branch=main)](https://app.travis-ci.com/kevgathuku/cashier_checkout)
+
 A cashier module that calculates the prices of a user's cart items,
 taking different discount rules into account
 
