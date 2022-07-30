@@ -8,21 +8,15 @@ class Cashier::Checkout
   end
 
   def scan(item)
-    unless @rules.include?(item)
-      raise Cashier::InvalidItemError
-    end
+    raise Cashier::InvalidItemError unless @rules.include?(item)
 
-    # increment the item qty by 1
     @cart[item] += 1
-  end
-
-  def calculate_discounts(item)
   end
 
   def total
     result = 0
 
-    @cart.each_pair { |item_code, qty|
+    @cart.each_pair do |item_code, qty|
       item_price = @rules[item_code][:price]
       discount_threshold = @rules[item_code][:discount_threshold]
       discount_price = @rules[item_code][:discount_price]
@@ -44,7 +38,7 @@ class Cashier::Checkout
         # No discount. Add the actual price of the item to the total
         result += item_price * qty
       end
-    }
+    end
     result
   end
 end

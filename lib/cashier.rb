@@ -1,4 +1,4 @@
-require "cashier/version"
+require 'cashier/version'
 
 module Cashier
   class Error < StandardError; end
@@ -8,4 +8,4 @@ module Cashier
   # Your code goes here...
 end
 
-require_relative "cashier/checkout"
+require_relative 'cashier/checkout'
