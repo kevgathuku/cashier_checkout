@@ -34,7 +34,7 @@ class Cashier::Checkout
         result += item_total
       else
         # Add the price of the item to the total
-        result += item_price
+        result += item_price * qty
       end
     }
     result
