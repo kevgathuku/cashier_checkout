@@ -5,15 +5,17 @@
 A cashier module that calculates the prices of a user's cart items,
 taking different discount rules into account
 
-The rules take this format:
+The discount rules take this format:
 
 ```
 {
-      "PRODUCT_CODE" => { price: Float,
-                         name: String,
-                         discount_threshold: Integer,
-                         discount_calc: Proc | discount_price: int
-    }
+  'PRODUCT_CODE' => {
+    price: Float,
+    name: String,
+    discount_threshold: Integer,
+    discount_calc: Proc | discount_price: Integer
+  },
+}
 ```
 
 | Attribute            | Meaning                                                                                             |
@@ -82,7 +84,7 @@ After checking out the repo, run `bin/setup` to install dependencies. Then, run 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/kevgathuku/cashier.
+Bug reports and pull requests are welcome on GitHub at https://github.com/kevgathuku/cashier_checkout.
 
 ## License
 
