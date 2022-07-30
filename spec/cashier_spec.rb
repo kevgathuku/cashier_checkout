@@ -26,8 +26,8 @@ RSpec.describe Cashier do
     }
     let(:checkout_instance) { Cashier::Checkout.new pricing_rules }
 
-    context "with no discounts" do
-      xit "calculates totals correctly" do
+    xcontext "with no discounts" do
+      it "calculates totals correctly" do
         products = ["GR1", "SR1", "CF1"]
         products.each { |code|
           checkout_instance.scan(code)
@@ -50,6 +50,14 @@ RSpec.describe Cashier do
         checkout_instance.scan("GR1")
         checkout_instance.scan("GR1")
         expect(checkout_instance.total).to be 3.11 * 2
+      end
+
+      it "calculates totals for a threshold quantity discount type" do
+        # SR1,SR1,SR1
+        checkout_instance.scan("SR1")
+        checkout_instance.scan("SR1")
+        checkout_instance.scan("SR1")
+        expect(checkout_instance.total).to be 4.5 * 3
       end
 
       xit "calculates totals for multiple products" do
