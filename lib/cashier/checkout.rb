@@ -8,7 +8,7 @@ class Cashier::Checkout
   end
 
   def scan(item)
-    unless @rules.has_key?(item)
+    unless @rules.include?(item)
       raise Cashier::InvalidItemError
     end
 

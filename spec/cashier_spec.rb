@@ -3,6 +3,23 @@ RSpec.describe Cashier do
     expect(Cashier::VERSION).not_to be nil
   end
 
+  describe ".initialize" do
+    let(:checkout_instance) {
+      Cashier::Checkout.new {
+        { "SR1" => {
+          price: 5,
+          name: "Strawberries",
+          discount_threshold: 3,
+          discount_price: 4.5,
+        } }
+      }
+    }
+
+    it "throws when trying to add an invalid item" do
+      expect { checkout_instance.scan("XYZ") }.to raise_error Cashier::InvalidItemError
+    end
+  end
+
   describe ".totals" do
     let(:pricing_rules) {
       { "GR1" => { price: 3.11,
