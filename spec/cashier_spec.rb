@@ -26,7 +26,28 @@ RSpec.describe Cashier do
     }
     let(:checkout_instance) { Cashier::Checkout.new pricing_rules }
 
-    xcontext "with no discounts" do
+    context "with invalid data" do
+      let(:invalid_pricing_rules) {
+        {
+          "SR1" => {
+            price: 5,
+            name: "Strawberries",
+            discount_threshold: 3,
+          },
+        }
+      }
+      let(:checkout_instance) { Cashier::Checkout.new invalid_pricing_rules }
+
+      it "throws when calculating total with invalid discount rules" do
+        # SR1,SR1,SR1
+        checkout_instance.scan("SR1")
+        checkout_instance.scan("SR1")
+        checkout_instance.scan("SR1")
+        expect { checkout_instance.total }.to raise_error Cashier::InvalidRulesError
+      end
+    end
+
+    context "with no discounts" do
       it "calculates totals correctly" do
         products = ["GR1", "SR1", "CF1"]
         products.each { |code|
