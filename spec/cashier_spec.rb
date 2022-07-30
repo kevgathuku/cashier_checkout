@@ -4,7 +4,12 @@ RSpec.describe Cashier do
   end
 
   describe ".totals" do
-    let(:checkout_instance) { Cashier::Checkout.new Cashier::PRICING_RULES }
+    let(:pricing_rules) {
+      { "GR1" => { price: 3.11, name: "Grean Tea", discount_qty: 2, discount_price: 1.75 },
+        "SR1" => { price: 5, name: "Strawberries", discount_qty: 3, discount_price: 4.5 },
+        "CF1" => { price: 11.23, name: "Coffee", discount_qty: 3, discount_price: 7.48 } }
+    }
+    let(:checkout_instance) { Cashier::Checkout.new pricing_rules }
 
     context "with no discounts" do
       it "calculates totals correctly" do
