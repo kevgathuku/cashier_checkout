@@ -20,7 +20,7 @@ RSpec.describe Cashier do
     end
   end
 
-  describe ".totals" do
+  describe ".total" do
     let(:pricing_rules) {
       { "GR1" => { price: 3.11,
                  name: "Grean Tea",
@@ -73,11 +73,18 @@ RSpec.describe Cashier do
         expect(checkout_instance.total).to be 19.34
       end
 
-      it "calculates totals for products not at the threshold" do
+      it "calculates totals for strawberries not at the threshold" do
         # SR1,SR1
         checkout_instance.scan("SR1")
         checkout_instance.scan("SR1")
         expect(checkout_instance.total).to be 10
+      end
+
+      it "calculates totals for coffee not at the threshold" do
+        # SR1,SR1
+        checkout_instance.scan("CF1")
+        checkout_instance.scan("CF1")
+        expect(checkout_instance.total).to be 11.23 * 2
       end
     end
 

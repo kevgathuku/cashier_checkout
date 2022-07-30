@@ -34,7 +34,7 @@ class Cashier::Checkout
           # Use the discount price instead of the actual price
           result += discount_price * qty
         elsif @rules[item_code].has_key?(:discount_calc)
-          # Calculate total for item using the discount_calc proc
+          # Use the discount_calc proc to calculate the total
           item_total = @rules[item_code][:discount_calc].call(item_price, qty)
           puts "Item #{item_code}, total: #{item_total}"
           result += item_total
