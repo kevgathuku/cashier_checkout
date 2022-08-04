@@ -23,7 +23,7 @@ The discount rules take this format:
 | `price`              | The regular price applied in case of no discount                                                    |
 | `name`               | Human-readable product name                                                                         |
 | `discount_threshold` | The number of items required for the discount to be applied                                         |
-| `discount_calc`      | A proc taking 2 arguments: price and quantity, to calculates the discount based on a custom formula |
+| `discount_calc`      | A proc taking 2 arguments: price and quantity, to calculate the discount based on a custom formula |
 
 The rules (with discounts) can be specified in 2 formats:
 
@@ -48,7 +48,7 @@ For example this rule specifies that for 3 or more Pens, the discounted price fo
 
 When the total for the cart items is being calculated, if the number of items is equal to or exceeds the `discount_threshold`, then the `discount_calc` will be run to calculate the total for the item.
 
-For example this rule will apply a discount of 30% to each pen, if the user purchases 3 or more pens.
+For example this rule will apply a discount of 50% to each pen, if the user purchases 3 or more pens.
 
 ```ruby
 {
@@ -57,7 +57,7 @@ For example this rule will apply a discount of 30% to each pen, if the user purc
     name: 'Pens',
     discount_threshold: 3,
     discount_calc: Proc.new { |price, qty|
-      price * 0.3 * qty
+      price * 0.5 * qty
     },
   },
 }
